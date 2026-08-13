@@ -36,6 +36,17 @@ jobs:
         with:
           fetch-depth: 0 # Скачиваем полную историю коммитов для корректного зеркалирования
 
+      - name: Verify token is set
+        env:
+          BACKUP_TOKEN: ${{ secrets.BACKUP_TOKEN }}
+        run: |
+          if [ -z "$BACKUP_TOKEN" ]; then
+            echo "=== ОШИБКА: BACKUP_TOKEN is empty! Create a PAT and add it as secret ==="
+            exit 1
+          else
+            echo "=== BACKUP_TOKEN is set (length: ${#BACKUP_TOKEN}) ==="
+          fi
+
       - name: Push to Backup Repository
         env:
           BACKUP_TOKEN: ${{ secrets.BACKUP_TOKEN }}
