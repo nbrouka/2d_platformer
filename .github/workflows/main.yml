@@ -1,7 +1,7 @@
 # Название всего автоматического процесса
 name: Unity 2D Platformer CI/CD
 
-# Условие запуска: реагировать на любой push в главную ветку main
+# Условие запуска: реагировать на любой push в главную ветку master
 on:
   push:
     branches: [ "master" ]
@@ -29,6 +29,7 @@ jobs:
   # ЗАДАЧА 2: Автоматическое зеркалирование в резервный репозиторий
   mirror_repo:
     needs: sanity_check # Начнется только после того, как успешно пройдет первая задача
+    if: github.repository == 'nbrouka/2d_platformer' # Только в оригинальном репо, чтобы избежать цикла в backup
     runs-on: ubuntu-latest
     steps:
       - name: Checkout full history
@@ -42,7 +43,7 @@ jobs:
           BACKUP_TOKEN: ${{ secrets.BACKUP_TOKEN }}
         run: |
           if [ -z "$BACKUP_TOKEN" ]; then
-            echo "=== ОШИБКА: BACKUP_TOKEN is empty! Create a PAT and add it as secret ==="
+            echo "=== ОШИБКА: BACKUP_TOKEN is empty! Create a PAT with scopes [repo, workflow] ==="
             exit 1
           else
             echo "=== BACKUP_TOKEN is set (length: ${#BACKUP_TOKEN}) ==="
