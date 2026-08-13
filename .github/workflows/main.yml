@@ -37,8 +37,10 @@ jobs:
           fetch-depth: 0 # Скачиваем полную историю коммитов для корректного зеркалирования
 
       - name: Push to Backup Repository
+        env:
+          BACKUP_TOKEN: ${{ secrets.BACKUP_TOKEN }}
         run: |
           echo "=== Начало процесса зеркалирования ==="
-          # Замените путь ниже на ваш скопированный адрес РЕЗЕРВНОГО репозитория, добавив секретный токен:
-          git push --force https://${{ secrets.BACKUP_TOKEN }}@github.com/nbrouka/2d_platformer_backup.git master
+          git remote set-url origin https://oauth2:${BACKUP_TOKEN}@github.com/nbrouka/2d_platformer_backup.git
+          git push --force origin master
           echo "=== Код успешно продублирован ==="
