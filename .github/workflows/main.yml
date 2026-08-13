@@ -40,5 +40,5 @@ jobs:
         run: |
           echo "=== Начало процесса зеркалирования ==="
           # Замените путь ниже на ваш скопированный адрес РЕЗЕРВНОГО репозитория, добавив секретный токен:
-          git push --force https://${{ secrets.BACKUP_TOKEN }}@://github.com/nbrouka/2d_platformer_backup master
+          git push --force https://${{ secrets.BACKUP_TOKEN }}@github.com/nbrouka/2d_platformer_backup.git master
           echo "=== Код успешно продублирован ==="
