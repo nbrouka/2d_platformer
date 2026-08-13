@@ -1,9 +1,11 @@
 [L|l]ibrary/
+[Tt]emp/
+[Oo]bj/
 [L|l]ogs/
 [U|u]sers/
 [B|b]uild/
 [B|b]uilds/
-[P|p]ackages/
+[Uu]ser[Ss]ettings/
 [P|p]roject[S|s]ettings/ProjectVersion.txt
 *.cs.md
 *.csproj
