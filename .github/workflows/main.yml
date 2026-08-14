@@ -61,6 +61,12 @@ jobs:
   build_docker_image:
     needs: sanity_check
     runs-on: ubuntu-latest
+
+    # КРИТИЧЕСКИ ВАЖНЫЕ СТРОКИ: Разрешаем этой конкретной задаче публиковать пакеты
+    permissions:
+      contents: read
+      packages: write
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
