@@ -26,9 +26,34 @@ jobs:
           find Assets/ -name "*Controller.cs" -print
           find Assets/ -name "BuildManager.cs" -print
 
+  # ЭТАП 2 (ЛР №4): Автоматический запуск тестов Unity
+  run_tests:
+    needs: sanity_check # Тесты запускаются сразу после проверки структуры проекта
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          lfs: true # Активируем поддержку Git LFS, если в игре есть тяжелая графика
+
+      # Создаем кэш для папки Library, чтобы тесты запускались быстрее
+      - uses: actions/cache@v4
+        with:
+          path: Library
+          key: Library-${{ hashFiles('Packages/packages-lock.json', 'Assets/**/*.asmdef') }}
+
+      # Официальный экшен запуска тестов от GameCI
+      - name: Run Unity Tests
+        uses: game-ci/unity-test-runner@v4
+        env:
+          # Используем персональный токен лицензии (настроим его в секретах репозитория)
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+        with:
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+
   # ЗАДАЧА 2: Автоматическое зеркалирование в резервный репозиторий
   mirror_repo:
-    needs: sanity_check # Начнется только после того, как успешно пройдет первая задача
+    needs: run_tests # Теперь зеркалирование начнется только после успешных тестов
     if: github.repository == 'nbrouka/2d_platformer' # Только в оригинальном репо, чтобы избежать цикла в backup
     runs-on: ubuntu-latest
     steps:
@@ -59,7 +84,7 @@ jobs:
 
 # НОВЫЙ ЭТАП 3: Автоматическая сборка Docker-образа в облако
   build_docker_image:
-    needs: sanity_check
+    needs: run_tests # Теперь Docker начнет собираться ТОЛЬКО если тесты прошли успешно!
     runs-on: ubuntu-latest
 
     # КРИТИЧЕСКИ ВАЖНЫЕ СТРОКИ: Разрешаем этой конкретной задаче публиковать пакеты
