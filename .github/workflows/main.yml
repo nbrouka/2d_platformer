@@ -55,6 +55,9 @@ jobs:
           # Версия Unity задается явно: ProjectSettings/ProjectVersion.txt
           # в .gitignore, поэтому на раннере его нет и версия не определилась бы
           unityVersion: 6000.3.11f1
+          # Инструментирование code coverage роняет Unity 6 в контейнере
+          # (SIGSEGV, exit code 139) - coverage пока не нужен для лабораторной
+          coverageEnabled: false
 
   # ЗАДАЧА 2: Автоматическое зеркалирование в резервный репозиторий
   mirror_repo:
