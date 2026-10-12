@@ -7,6 +7,8 @@
 [B|b]uilds/
 [Uu]ser[Ss]ettings/
 [P|p]roject[S|s]ettings/ProjectVersion.txt
+[Mm]obile[Dd]ependency[Rr]esolver/
+[Mm]obile[Dd]ependency[Rr]esolver.meta
 *.cs.md
 *.csproj
 *.unityproj
