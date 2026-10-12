@@ -58,7 +58,7 @@ jobs:
       - name: Run Unity Tests
         run: |
           game-ci test --docker --dockerShmSize=1025m \
-            --engine=unity --testPlatforms=playmode;editmode;COMBINE_RESULTS \
+            --engine=unity --testPlatforms='playmode;editmode;COMBINE_RESULTS' \
             --engineVersion=6000.3.11f1 --coverageEnabled=false \
             --artifactsPath=artifacts --dockerIsolationMode=default \
             --containerRegistryRepository=unityci/editor \
