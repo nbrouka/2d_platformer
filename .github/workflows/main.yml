@@ -46,10 +46,15 @@ jobs:
       - name: Run Unity Tests
         uses: game-ci/unity-test-runner@v4
         env:
-          # Используем персональный токен лицензии (настроим его в секретах репозитория)
+          # Секреты лицензии Unity для активации редактора на раннере
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
           githubToken: ${{ secrets.GITHUB_TOKEN }}
+          # Версия Unity задается явно: ProjectSettings/ProjectVersion.txt
+          # в .gitignore, поэтому на раннере его нет и версия не определилась бы
+          unityVersion: 6000.3.11f1
 
   # ЗАДАЧА 2: Автоматическое зеркалирование в резервный репозиторий
   mirror_repo:
